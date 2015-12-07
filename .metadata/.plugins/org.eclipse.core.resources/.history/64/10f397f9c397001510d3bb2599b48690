@@ -1,0 +1,7 @@
+package com.example.activitylifecycle;
+
+import android.app.Activity;
+
+class NormalActivity extends Activity {
+
+}

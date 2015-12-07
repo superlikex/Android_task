@@ -1,0 +1,25 @@
+package com.example.broadcast;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class ReceiveActivity extends Activity {
+	private TextView rece_text;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		
+		rece_text = (TextView)findViewById(R.layout.second_layout);
+		
+		Intent intent = getIntent();//获取启动时的intent
+		setContentView(R.layout.second_layout);
+	//	rece_text.setText(intent.getStringExtra("content"));
+		
+		
+	}
+	
+
+}

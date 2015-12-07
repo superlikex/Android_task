@@ -1,0 +1,7 @@
+package com.example.activitylifecycle;
+
+import activity;
+
+public class DialogActivity extends activity {
+
+}

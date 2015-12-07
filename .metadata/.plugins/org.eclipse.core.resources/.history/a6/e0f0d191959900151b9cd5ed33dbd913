@@ -1,0 +1,20 @@
+package com.example.broadcast;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+
+public class Broadcast extends BroadcastReceiver {
+
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		
+		Intent intent1 = new Intent(context,ReceiveActivity.class);//启动另一个activity
+		intent.putExtra("content", intent.getStringExtra("content"));
+		context.startActivity(intent1);//使用context
+		
+		// TODO Auto-generated method stub
+
+	}
+
+}

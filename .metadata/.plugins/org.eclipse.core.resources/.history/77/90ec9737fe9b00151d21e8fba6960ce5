@@ -1,0 +1,7 @@
+package com.example.musicplayer_bind;
+import android.app.Notification.Action;
+
+
+public class PlayActivity extends Action {
+
+}

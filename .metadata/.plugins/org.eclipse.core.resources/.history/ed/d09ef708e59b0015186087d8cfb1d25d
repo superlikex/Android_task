@@ -1,0 +1,75 @@
+package com.example.databasetest;
+
+import android.app.Activity;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
+public class MainActivity extends Activity {
+	
+	private MyDatabaseHelper dbHelper;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		dbHelper = new MyDatabaseHelper(this,"BookStore.db",null,2);
+		Button createDatabase = (Button)findViewById(R.id.create_database);
+		Button addData = (Button)findViewById(R.id.add_data);
+		createDatabase.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v){
+				dbHelper.getWritableDatabase();
+			}
+		});
+		
+		addData.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v){
+				SQLiteDatabase db = dbHelper.getWritableDatabase();
+				ContentValues values = new ContentValues();
+				
+				values.put("name","book1" );
+				values.put("author","A" );
+				values.put("pages","100" );
+				values.put("price","13.2");
+				db.insert("Book", null, values);
+				values.clear();
+				
+				values.put("name","book2" );
+				values.put("author","B" );
+				values.put("pages","120" );
+				values.put("price","10.2");
+				db.insert("Book", null, values);
+				//values.clear();
+				
+				
+			}
+		});
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+}

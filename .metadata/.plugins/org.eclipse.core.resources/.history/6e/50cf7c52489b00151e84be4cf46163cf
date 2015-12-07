@@ -1,0 +1,58 @@
+package com.example.musicplayer;
+
+import android.app.Service;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
+
+public class MyService extends Service {
+
+	
+	
+	@Override
+	public IBinder onBind(Intent intent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	MediaPlayer mediaPlayer;
+	@Override
+	public void onCreate(){
+		super.onCreate();
+		
+		Log.d("test","service oncreate");
+		if(mediaPlayer == null){
+			mediaPlayer = MediaPlayer.create(this,R.raw.song);
+			mediaPlayer.setLooping(false);
+		}
+		
+	}
+	
+	@Override
+	public int onStartCommand (Intent intent,int flags,int startId){
+		Log.d("test","onstartCommand");
+		int op = -1,num_song = -1;
+		if(true){
+		//if(intent != null){
+			Bundle bundle = intent.getExtras();
+			if(bundle != null){
+				op = Integer.parseInt(bundle.getString("data").split("#")[0]);
+				num_song = Integer.parseInt(bundle.getString("data").split("#")[1]);
+				Log.d("test",String.valueOf(op));
+				Log.d("test","num_song"+num_song);
+				
+			}
+			
+			
+			
+		}
+		
+		
+		
+		
+		return super.onStartCommand(intent, flags, startId);
+		
+	}
+
+}

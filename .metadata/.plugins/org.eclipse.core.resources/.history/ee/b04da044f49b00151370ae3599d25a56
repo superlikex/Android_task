@@ -1,0 +1,108 @@
+package com.example.databasetest;
+
+import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+public class DeleteActivity extends Activity implements OnClickListener,OnItemSelectedListener{
+	
+	private EditText id,name,age;
+	private Spinner  sex;
+	private Button   bt;
+	private MyDatabaseHelper dbHelper;
+	
+	private  int  sex_flag = 0; 
+	private String[]	items ={"男","女"};
+	private ArrayAdapter<String> _Adapter;
+	@Override 
+	protected void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_set);
+		
+		dbHelper = new MyDatabaseHelper(this,"StaffManager.db",null,1);
+		
+		
+		
+		
+		
+		id = (EditText) findViewById(R.id.edit_id);
+		name = (EditText) findViewById(R.id.edit_name);
+		age = (EditText) findViewById(R.id.edit_age);
+		sex = (Spinner) findViewById(R.id.spin_sex);
+		bt = (Button) findViewById(R.id.bt_commit);
+		bt.setOnClickListener(this);
+		id.setText("id为系统自动依序分配");
+		
+		
+		
+		_Adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,items);
+		_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		sex.setAdapter(_Adapter);
+		sex.setOnItemSelectedListener(this);
+		
+		
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		//取得数据
+		SQLiteDatabase db = dbHelper.getWritableDatabase();//获取数据库
+		ContentValues values = new ContentValues();
+	//	Intent intent = new Intent(this,MainActivity.class);
+		
+		String sex;
+		String get_name = name.getText().toString();
+		String get_age  = age.getText().toString();
+		if(get_name.length() == 0 || get_age.length() == 0){
+			Toast.makeText(this, "姓名和年龄不能为空", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		if(sex_flag == 0){
+			sex = "男";
+		}else{
+			sex = "女";
+		}
+		
+		
+		//values.put("name", String.valueOf(get_name));
+		//values.put("age", Integer.parseInt(get_age));
+		//values.put("sex",sex);
+		//Log.d("test","name" +get_name+get_age);
+		//db.insert("Staff",null,values);
+		db.delete("Staff", "name=?", new String[] {get_name});
+		Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
+		
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position,
+			long id) {
+		// TODO Auto-generated method stub
+		
+		sex_flag = position;
+		
+
+		return;
+		
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
